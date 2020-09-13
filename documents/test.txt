@@ -1,1 +1,1 @@
-test
+Please place all document file into this folder. 
