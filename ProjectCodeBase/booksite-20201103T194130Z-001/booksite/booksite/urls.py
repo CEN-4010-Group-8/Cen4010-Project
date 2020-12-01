@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from booksiteapp.views import BookView
+from booksiteapp.views import BookView,Browse
 from booksiteapp.views import test, home
 from booksiteapp.views import AddBook
 from django.urls import path, include
@@ -27,7 +27,7 @@ urlpatterns = [
 	path('', include('booksiteapp.urls')),
     path('accounts/profile/', home),
     path('test', test),
-    path('api/books', BookView.as_view()),
+    path('browsing/', Browse.as_view(), name ='browse'),
     path('create/book',AddBook.as_view()),
     path('register/', user_views.register, name='register'),
     path('account/', user_views.account, name='account'),

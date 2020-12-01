@@ -1,0 +1,87 @@
+{% extends "booksiteapp/base.html" %}
+
+<!DOCTYPE html>
+<html>
+	{% block content %}
+<head>
+<style>
+
+.book{
+	
+	height: 250px;
+	border: 2px solid black;
+	margin-bottom: 20px;
+	border-radius: 5px;
+	text-align:center;
+	background-color:light-blue;
+}
+
+.bookHeader{
+	background-color: rgb(29,107,150);
+	color: white;
+	
+}
+
+</style>
+</head>
+
+<body>
+	
+	<form action="" method="Get">
+	{% csrf_token %}
+    <label for="featured">Order By</label>
+    <select name="featured">
+        <option value="Title" />Title</option>
+        <option value="Author" />Author</option>
+		<option value="Price" />Price</option>
+		<option value="Book Rating" />Book Rating</option>
+		<option value="Release Date" />Release Date</option>
+	</select>
+    <input type="submit" value ="Filter">
+</form> 
+
+
+	
+	
+	{% for book in books %}
+	<div class = "book">
+	
+	<h1 class = "bookHeader">{{ book.bookTitle }}</h1>
+	<p> Author: {{ book.authorName }}</p>
+	<p> Publisher: {{ book.publisherName }}</p>
+	<p> Published: {{ book.releaseDate }}</p>
+	<p> Genre: {{ book.genre }}</p>
+	<p> Price:$ {{ book.price }}</p>
+	<p> Rating: {{ book.rating}}</p>
+	</div>
+	
+	{% endfor %}
+	
+	{% if is_paginated %}
+		{% if page_obj.has_previous %}
+			<a class = "page_link" href="?page=1">First</a>
+			<a class = "page_link" href="?page={{page_obj.previous_page_number}}">previous</a>
+		{% endif %}
+		
+		{% for num in page_obj.paginator.page_range %}
+			{% if page_obj.number == num %}
+				<a class = "page_link" href ="?page={{num}}">{{num}}</a>
+			{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+				<a class = "page_link" href ="?page={{num}}">{{num}}</a>
+			{% endif %}
+		{% endfor %}
+
+		{% if page_obj.has_next %}
+			<a class = "page_link" href="?page={{ page_obj.next_page_number }}">Next</a>
+			<a class = "page_link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+		{% endif %}
+		
+		
+	{% endif %}
+		
+		
+		
+	
+</body>
+{% endblock content %}
+</html>

@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from rest_framework import generics
 from .serializers import BookSerializer
+from django.core.paginator import Paginator
+from django.views.generic import ListView
 from .models import Book
 
 def home(request):
@@ -25,3 +27,10 @@ class BookView(generics.ListAPIView):
 class AddBook(generics.CreateAPIView):
 	queryset = Book.objects.all()
 	serializer_class = BookSerializer
+
+class Browse(ListView):
+	model = Book
+	template_name = 'booksiteapp/browsing.html'
+	context_object_name = 'books'
+	ordering = ['price']
+	paginate_by =  2
